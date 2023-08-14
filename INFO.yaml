@@ -46,6 +46,18 @@ committers:
       email: 'priyashu.p@samsung.com'
       company: 'Samsung'
       id: 'priyashu.p'
+    - name: 'Kunaal Bhagtani'
+      email: 'k.bhagtani@samsung.com'
+      company: 'Samsung'
+      id: 'k.bhagtani'
+    - name: 'Amit Kumar Bharadwaj'
+      email: 'amit.bha@samsung.com'
+      company: 'Samsung'
+      id: 'amitgemni20'
+    - name: 'Shilpashree S'
+      email: 'shilpa.shree@samsung.com'
+      company: 'Samsung'
+      id: 'shilpa.shree'
 tsc:
     # yamllint disable rule:line-length
     approval: 'https://wiki.o-ran-sc.org/display/TOC#ORANSCTechnicalOversightCommittee(TOC)-20221215'
