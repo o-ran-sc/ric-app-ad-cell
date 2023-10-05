@@ -1,0 +1,8 @@
+Verified+1: ORAN Required GHA <releng+oran.required.gha@linuxfoundation.org>
+Verified+1: Priyanshu Panwar <priyashu.p@samsung.com>
+Code-Review+2: Priyanshu Panwar <priyashu.p@samsung.com>
+Submitted-by: Saravanan B <s.balasubram@samsung.com>
+Submitted-at: Thu, 05 Oct 2023 06:13:56 +0000
+Reviewed-on: https://gerrit.o-ran-sc.org/r/c/ric-app/ad-cell/+/11801
+Project: ric-app/ad-cell
+Branch: refs/heads/master
