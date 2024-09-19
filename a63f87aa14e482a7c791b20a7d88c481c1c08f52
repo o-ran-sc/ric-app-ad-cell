@@ -1,0 +1,8 @@
+Verified+1: ORAN Required GHA <releng+oran.required.gha@linuxfoundation.org>
+Code-Review+2: Saravanan B <s.balasubram@samsung.com>
+Verified+1: ORAN Jobbuilder <releng+oran-jobbuilder@linuxfoundation.org>
+Submitted-by: Saravanan B <s.balasubram@samsung.com>
+Submitted-at: Thu, 19 Sep 2024 10:39:36 +0000
+Reviewed-on: https://gerrit.o-ran-sc.org/r/c/ric-app/ad-cell/+/13367
+Project: ric-app/ad-cell
+Branch: refs/heads/master
