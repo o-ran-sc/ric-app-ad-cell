@@ -16,6 +16,23 @@
       "message": "Sunil N \u003csunil.n@samsung.com\u003e",
       "revId": "b4d399df7ee135649828732ac5afce9cb702b491",
       "serverId": "84e4e190-e623-4c37-9eda-58b1937c1b53"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36e7a4ac_d84c434d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002208
+      },
+      "writtenOn": "2024-10-01T10:09:48Z",
+      "side": 1,
+      "message": "Do the review",
+      "revId": "b4d399df7ee135649828732ac5afce9cb702b491",
+      "serverId": "84e4e190-e623-4c37-9eda-58b1937c1b53"
     }
   ]
 }
