@@ -29,7 +29,7 @@ ENV RMR_SEED_RT /opt/route/test_route.rt
 # sdl needs gcc
 RUN apk update && apk add gcc musl-dev bash
 
-RUN pip install influxdb-client
+RUN pip install influxdb-client pandas
 
 # Install
 COPY setup.py /tmp
