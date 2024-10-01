@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c4a1de8_ad074210",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002208
+      },
+      "writtenOn": "2024-10-01T10:08:50Z",
+      "side": 1,
+      "message": "Sunil N \u003csunil.n@samsung.com\u003e",
+      "revId": "b4d399df7ee135649828732ac5afce9cb702b491",
+      "serverId": "84e4e190-e623-4c37-9eda-58b1937c1b53"
+    }
+  ]
+}
