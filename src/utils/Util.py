@@ -8,3 +8,10 @@ def setup_logger():
     ch.setFormatter(formatter)
     logger.addHandler(ch)
     return logger
+
+log = setup_logger()
+
+def log_dataframe(df):
+    for column in df.columns:
+        for row in range(len(df)):
+            log.debug("{} : {}".format(column, df.iloc[row][column]))   
