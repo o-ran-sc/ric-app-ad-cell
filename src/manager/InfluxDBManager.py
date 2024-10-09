@@ -1,9 +1,14 @@
 import configparser
 import os
+import time
 import influxdb_client
 import pandas as pd
 
+from DetectionExecutor import DetectionExecutor
+from TrainingBatchExecutor import TrainingBatchExecutor
+
 from ..utils.Util import Util
+from ..utils.constants import REPO_COUNT
 
 config = configparser.ConfigParser()
 config.read(os.path.join(os.getcwd(), '../configuration/config.ini'))
@@ -37,8 +42,32 @@ class InfluxDBManager:
         finally:
             client.close() 
 
-    def query(self, query):
-        pass
+    def query(self):
+        while True:
+            measurement = config.get('APP', 'MEASUREMENT_NAME')
+            latestDataDF = self.getLatestData(measurement)
+
+            if not latestDataDF.empty:
+                log.info(f"Latest data from measurement: '{measurement}'")
+                Util.log_dataframe(latestDataDF)
+
+                latestDataDF  = latestDataDF.drop(['table', '_start', '_stop', '_time', '_measurement', 'result'], axis=1)
+
+                trainingBatchExecutor = TrainingBatchExecutor()
+                scaler_dictionary = trainingBatchExecutor.getData()
+
+                if scaler_dictionary.get(latestDataDF.loc[0, 'Short name']) is None or scaler_dictionary.get(latestDataDF.loc[0, 'Short name']).get(REPO_COUNT).loc[0, 'count'] < int(config.get('APP', 'DETECTION_COUNT')):
+                    log.info(f"No suffiecient data to detect anamoly for cell  '{latestDataDF.loc[0, 'Short name']}'")
+                    trainingBatchExecutor.updateScalars(latestDataDF.loc[0, 'Short name'], latestDataDF)
+                else:
+                    log.info(f"Greater than 1 day suffiecient data is present to detect anamoly for cell  '{latestDataDF.loc[0, 'Short name']}'")
+                    trainingBatchExecutor.updateScalars(latestDataDF.loc[0, 'Short name'], latestDataDF)
+                    detectionExecutor = DetectionExecutor()
+                    detectionExecutor.execute(latestDataDF)        
+            else:
+                log.info(f"No data available in measurement '{measurement}'.")
+            time.sleep(5)
+
 
     def write(self, data):
         pass
