@@ -14,7 +14,16 @@ log = Util.setup_logger()
 class DetectionExecutor:
 
     def execute(self, df):
-        pass
+        log.info('In DetectionExecutor')
+        df, df_scaled = self.data_scaling(df)
+
+        df_scaled_cols = list(df_scaled.columns)
+        kpis = df_scaled_cols[1:-1]
+        log.info('kpis [{}]'.format(kpis))
+
+        X_test = np.array(df_scaled.loc[:, kpis])
+        model = FileLoader(MODEL_AD_CELL_FILE_NAME).loadModel()
+        log.info('Model Prediction [{}]'.format(model.predict(X_test)))
 
     def data_scaling(self, df):
         log.debug('input df:')
