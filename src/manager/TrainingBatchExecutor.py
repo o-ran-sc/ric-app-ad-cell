@@ -4,7 +4,7 @@ import pandas as pd
 from CustomFileRepository import CustomFileRepository
 
 from ..utils.Util import Util
-from ..utils.constants import KPIS_INDEXER, REPO_COUNT, REPO_MEAN, REPO_POW_SUM, REPO_SD, REPO_SUM
+from ..utils.constants import Constants
 
 log = Util.setup_logger()
 
@@ -19,20 +19,20 @@ class TrainingBatchExecutor:
     def updateScalars(self, cell, df_current):
         log.info('Update scalar started for [{}]'.format(cell))
 
-        df_current.set_index(KPIS_INDEXER, inplace=True)
+        df_current.set_index(Constants.KPIS_INDEXER, inplace=True)
 
         if CustomFileRepository.scaler_dictionary.get(cell) is None:
             log.info('Dictionary not contains cell [{}].'.format(cell))
             
-            df_sum = df_current.groupby(KPIS_INDEXER).sum()
+            df_sum = df_current.groupby(Constants.KPIS_INDEXER).sum()
             log.debug('df_sum content:')
             Util.log_dataframe(df_sum)
             
-            df_powsum = df_current.groupby(KPIS_INDEXER).apply(lambda x: np.square(x).sum())
+            df_powsum = df_current.groupby(Constants.KPIS_INDEXER).apply(lambda x: np.square(x).sum())
             log.debug('df_powsum content:')
             Util.log_dataframe(df_powsum)
 
-            df_count = pd.DataFrame(df_current.groupby(KPIS_INDEXER).apply(lambda x: len(x)))
+            df_count = pd.DataFrame(df_current.groupby(Constants.KPIS_INDEXER).apply(lambda x: len(x)))
             df_count.columns = ['count']
             log.debug('df_count content:')
             Util.log_dataframe(df_count)
@@ -41,34 +41,34 @@ class TrainingBatchExecutor:
             df_org_powsum = df_powsum
             df_org_count = df_count
         else :
-           if CustomFileRepository.scaler_dictionary.get(cell).get(REPO_COUNT) is not None:
+           if CustomFileRepository.scaler_dictionary.get(cell).get(Constants.REPO_COUNT) is not None:
                 log.info('Dictionary contains cell [{}].'.format(cell))
 
-                df_org_count = CustomFileRepository.scaler_dictionary.get(cell).get(REPO_COUNT)
+                df_org_count = CustomFileRepository.scaler_dictionary.get(cell).get(Constants.REPO_COUNT)
                 log.debug('df_org_count: ')
                 Util.log_dataframe(df_org_count)
 
-                df_org_cumsum = CustomFileRepository.scaler_dictionary.get(cell).get(REPO_SUM)
+                df_org_cumsum = CustomFileRepository.scaler_dictionary.get(cell).get(Constants.REPO_SUM)
                 log.debug('df_org_cumsum: ')
                 Util.log_dataframe(df_org_cumsum)
 
-                df_org_powsum = CustomFileRepository.scaler_dictionary.get(cell).get(REPO_POW_SUM)
+                df_org_powsum = CustomFileRepository.scaler_dictionary.get(cell).get(Constants.REPO_POW_SUM)
                 log.debug('df_org_powsum: ')
                 Util.log_dataframe(df_org_powsum)
 
-                df_org_count.set_index(KPIS_INDEXER, inplace=True)
-                df_org_cumsum.set_index(KPIS_INDEXER, inplace=True)
-                df_org_powsum.set_index(KPIS_INDEXER, inplace=True)
+                df_org_count.set_index(Constants.KPIS_INDEXER, inplace=True)
+                df_org_cumsum.set_index(Constants.KPIS_INDEXER, inplace=True)
+                df_org_powsum.set_index(Constants.KPIS_INDEXER, inplace=True)
 
-                df_sum = df_current.groupby(KPIS_INDEXER).sum()
+                df_sum = df_current.groupby(Constants.KPIS_INDEXER).sum()
                 log.debug('df_sum: ')
                 Util.log_dataframe(df_sum)
 
-                df_powsum = df_current.groupby(KPIS_INDEXER).apply(lambda x: np.square(x).sum())
+                df_powsum = df_current.groupby(Constants.KPIS_INDEXER).apply(lambda x: np.square(x).sum())
                 log.debug('df_powsum: ')
                 Util.log_dataframe(df_powsum)
 
-                df_count = pd.DataFrame(df_current.groupby(KPIS_INDEXER).apply(lambda x: len(x)))
+                df_count = pd.DataFrame(df_current.groupby(Constants.KPIS_INDEXER).apply(lambda x: len(x)))
                 df_count.columns = ['count']
                 log.debug('df_count: ')
                 Util.log_dataframe(df_count)
@@ -132,8 +132,8 @@ class TrainingBatchExecutor:
         log.debug('df_org_sd: ')
         Util.log_dataframe(df_org_sd)
 
-        CustomFileRepository.scaler_dictionary[cell] =  {REPO_SUM: df_org_cumsum, REPO_MEAN: df_org_mean, REPO_SD: df_org_sd, 
-                                           REPO_COUNT: df_org_count, REPO_POW_SUM: df_org_powsum}
+        CustomFileRepository.scaler_dictionary[cell] =  {Constants.REPO_SUM: df_org_cumsum, Constants.REPO_MEAN: df_org_mean, Constants.REPO_SD: df_org_sd, 
+                                           Constants.REPO_COUNT: df_org_count, Constants.REPO_POW_SUM: df_org_powsum}
         log.debug('Dictionary after scaler update[{}].'.format(CustomFileRepository.scaler_dictionary))
         
         df_current.reset_index(inplace=True)

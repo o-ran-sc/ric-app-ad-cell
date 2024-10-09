@@ -1,5 +1,5 @@
 from CustomFileRepository import CustomFileRepository
-from ..utils.constants import REPO_COUNT, REPO_MEAN, REPO_SD
+from ..utils.constants import Constants
 
 import pandas as pd
 
@@ -18,12 +18,12 @@ class Scaler:
         return pd.DataFrame([df_cell_score])
 
     def calculateExistingScore(self, cell, kpi_list, df_kpi_value):
-        df_cell_mean = CustomFileRepository.scaler_dictionary.get(cell).get(REPO_MEAN)
+        df_cell_mean = CustomFileRepository.scaler_dictionary.get(cell).get(Constants.REPO_MEAN)
         log.debug('df_cell_mean:')
         Util.log_dataframe(df_cell_mean)
 
         
-        df_cell_sd = CustomFileRepository.scaler_dictionary.get(cell).get(REPO_SD)
+        df_cell_sd = CustomFileRepository.scaler_dictionary.get(cell).get(Constants.REPO_SD)
         log.debug('df_cell_sd:')
         Util.log_dataframe(df_cell_sd)
 
@@ -55,7 +55,7 @@ class Scaler:
         df_cell_scores = []
         
         for cell_name in cell_names:
-            if int(CustomFileRepository.scaler_dictionary.get(cell_name).get(REPO_COUNT).iloc[0]['count']) > 0:
+            if int(CustomFileRepository.scaler_dictionary.get(cell_name).get(Constants.REPO_COUNT).iloc[0]['count']) > 0:
                 log.info('Cell [{}] already exists.'.format(cell_name))
                 df_cell_new = self.calculateExistingScore(cell_name, kpi_list, df_kpi_value)
             else:

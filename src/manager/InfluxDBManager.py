@@ -8,7 +8,7 @@ from DetectionExecutor import DetectionExecutor
 from TrainingBatchExecutor import TrainingBatchExecutor
 
 from ..utils.Util import Util
-from ..utils.constants import REPO_COUNT
+from ..utils.constants import Constants
 
 config = configparser.ConfigParser()
 config.read(os.path.join(os.getcwd(), '../configuration/config.ini'))
@@ -56,7 +56,7 @@ class InfluxDBManager:
                 trainingBatchExecutor = TrainingBatchExecutor()
                 scaler_dictionary = trainingBatchExecutor.getData()
 
-                if scaler_dictionary.get(latestDataDF.loc[0, 'Short name']) is None or scaler_dictionary.get(latestDataDF.loc[0, 'Short name']).get(REPO_COUNT).loc[0, 'count'] < int(config.get('APP', 'DETECTION_COUNT')):
+                if scaler_dictionary.get(latestDataDF.loc[0, 'Short name']) is None or scaler_dictionary.get(latestDataDF.loc[0, 'Short name']).get(Constants.REPO_COUNT).loc[0, 'count'] < int(config.get('APP', 'DETECTION_COUNT')):
                     log.info(f"No suffiecient data to detect anamoly for cell  '{latestDataDF.loc[0, 'Short name']}'")
                     trainingBatchExecutor.updateScalars(latestDataDF.loc[0, 'Short name'], latestDataDF)
                 else:

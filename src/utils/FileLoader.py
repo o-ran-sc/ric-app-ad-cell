@@ -4,14 +4,14 @@ import sys
 
 import pandas as pd
 
-from Constants import CONFIG_DIR
+from ..utils.constants import Constants
 
 
 class FileLoader:
     def __init__(self, fileName, fileType=None):
         self.__fileName = fileName
         self.__fileType = fileType
-        self.__packageName = CONFIG_DIR
+        self.__packageName = Constants.CONFIG_DIR
 
     def loadFile(self):
         isNewConfigExists = False

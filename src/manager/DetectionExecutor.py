@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from ..utils.constants  import  MODEL_AD_CELL_FILE_NAME
+from ..utils.constants import Constants
 from ..utils.FileLoader import FileLoader
 from ..utils.Util import Util
 
@@ -22,7 +22,7 @@ class DetectionExecutor:
         log.info('kpis [{}]'.format(kpis))
 
         X_test = np.array(df_scaled.loc[:, kpis])
-        model = FileLoader(MODEL_AD_CELL_FILE_NAME).loadModel()
+        model = FileLoader(Constants.MODEL_AD_CELL_FILE_NAME).loadModel()
         log.info('Model Prediction [{}]'.format(model.predict(X_test)))
 
     def data_scaling(self, df):
