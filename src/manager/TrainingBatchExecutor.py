@@ -40,9 +40,64 @@ class TrainingBatchExecutor:
             df_org_cumsum = df_sum
             df_org_powsum = df_powsum
             df_org_count = df_count
-        else:
-            log.info('Dictionary not contains cell [{}].'.format(cell))
-            # TO DO - add else logic
+        else :
+           if CustomFileRepository.scaler_dictionary.get(cell).get(REPO_COUNT) is not None:
+                log.info('Dictionary contains cell [{}].'.format(cell))
+
+                df_org_count = CustomFileRepository.scaler_dictionary.get(cell).get(REPO_COUNT)
+                log.debug('df_org_count: ')
+                Util.log_dataframe(df_org_count)
+
+                df_org_cumsum = CustomFileRepository.scaler_dictionary.get(cell).get(REPO_SUM)
+                log.debug('df_org_cumsum: ')
+                Util.log_dataframe(df_org_cumsum)
+
+                df_org_powsum = CustomFileRepository.scaler_dictionary.get(cell).get(REPO_POW_SUM)
+                log.debug('df_org_powsum: ')
+                Util.log_dataframe(df_org_powsum)
+
+                df_org_count.set_index(KPIS_INDEXER, inplace=True)
+                df_org_cumsum.set_index(KPIS_INDEXER, inplace=True)
+                df_org_powsum.set_index(KPIS_INDEXER, inplace=True)
+
+                df_sum = df_current.groupby(KPIS_INDEXER).sum()
+                log.debug('df_sum: ')
+                Util.log_dataframe(df_sum)
+
+                df_powsum = df_current.groupby(KPIS_INDEXER).apply(lambda x: np.square(x).sum())
+                log.debug('df_powsum: ')
+                Util.log_dataframe(df_powsum)
+
+                df_count = pd.DataFrame(df_current.groupby(KPIS_INDEXER).apply(lambda x: len(x)))
+                df_count.columns = ['count']
+                log.debug('df_count: ')
+                Util.log_dataframe(df_count)
+
+                df_org_count_all_idx = df_org_count.add(df_count)
+                df_org_count_all_idx.loc[:, :] = 0
+                df_org_cumsum_all_idx = df_org_cumsum.add(df_sum)
+                df_org_cumsum_all_idx.loc[:, :] = 0
+                df_org_powsum_all_idx = df_org_powsum.add(df_powsum)
+                df_org_powsum_all_idx.loc[:, :] = 0
+
+                df_org_count = df_org_count.reindex(df_org_count_all_idx.index, fill_value=0)
+                df_org_cumsum = df_org_cumsum.reindex(df_org_cumsum_all_idx.index, fill_value=0)
+                df_org_powsum = df_org_powsum.reindex(df_org_powsum_all_idx.index, fill_value=0)
+                df_count = df_count.reindex(df_org_count_all_idx.index, fill_value=0)
+                df_cumsum = df_sum.reindex(df_org_cumsum_all_idx.index, fill_value=0)
+                df_powsum = df_powsum.reindex(df_org_powsum_all_idx.index, fill_value=0)
+
+                df_org_count = df_org_count.add(df_count)
+                log.debug('df_org_count: ')
+                Util.log_dataframe(df_org_count)
+
+                df_org_cumsum = df_org_cumsum.add(df_cumsum)
+                log.debug('df_org_cumsum: ')
+                Util.log_dataframe(df_org_cumsum)
+
+                df_org_powsum = df_org_powsum.add(df_powsum)
+                log.debug('df_org_powsum: ')
+                Util.log_dataframe(df_org_powsum)
 
         df_org_mean = pd.DataFrame(df_org_cumsum.values / df_org_count.values, index=df_org_cumsum.index,
                                        columns=df_org_cumsum.columns)
@@ -82,4 +137,3 @@ class TrainingBatchExecutor:
         log.debug('Dictionary after scaler update[{}].'.format(CustomFileRepository.scaler_dictionary))
         
         df_current.reset_index(inplace=True)
-        
