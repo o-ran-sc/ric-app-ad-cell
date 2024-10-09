@@ -14,7 +14,7 @@ class TrainingBatchExecutor:
         return CustomFileRepository.scaler_dictionary
     
     def reset(self):
-        pass
+        CustomFileRepository.scaler_dictionary = {}
         
     def updateScalars(self, cell, df_current):
         pass
