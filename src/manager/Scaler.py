@@ -49,4 +49,18 @@ class Scaler:
         return pd.DataFrame([df_cell_score])
 
     def calculate_score(self, cell_names, df_kpi_value):
-        pass
+        kpi_list = list(df_kpi_value.columns)[1:]
+        log.debug('kpi_list [{}]'.format(kpi_list))
+        # col_list = ['Short name', 'Date', 'Hours'] + kpi_list
+        df_cell_scores = []
+        
+        for cell_name in cell_names:
+            if int(CustomFileRepository.scaler_dictionary.get(cell_name).get(REPO_COUNT).iloc[0]['count']) > 0:
+                log.info('Cell [{}] already exists.'.format(cell_name))
+                df_cell_new = self.calculateExistingScore(cell_name, kpi_list, df_kpi_value)
+            else:
+                log.info('Cell [{}] is new cell.'.format(cell_name))
+                df_cell_new = self.calculateNewScore(cell_name, kpi_list)
+            df_cell_scores.append(df_cell_new)
+        df_cell_scores = pd.concat(df_cell_scores)
+        return df_kpi_value, df_cell_scores
