@@ -20,9 +20,11 @@ from .adcellxapp import ADCellXapp
 
 
 def launchXapp():
+    print("In main.py launchXapp method")
     adcellxapp = ADCellXapp()
     adcellxapp.start()
 
 
 if __name__ == "__main__":
+    print("In main.py __main__ method")
     launchXapp()
