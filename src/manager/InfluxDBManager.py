@@ -4,20 +4,22 @@ import time
 import influxdb_client
 import pandas as pd
 
-from DetectionExecutor import DetectionExecutor
-from TrainingBatchExecutor import TrainingBatchExecutor
+from .DetectionExecutor import DetectionExecutor
+from .TrainingBatchExecutor import TrainingBatchExecutor
 
-from ..utils.Util import Util
+from ..utils import Util
 from ..utils.constants import Constants
 
 config = configparser.ConfigParser()
-config.read(os.path.join(os.getcwd(), '../configuration/config.ini'))
+config.read('/tmp/src/configuration/config.ini')
 
 log = Util.setup_logger()
 
 class InfluxDBManager:
 
-    def getLatestData(measurement) -> pd.DataFrame:
+    def getLatestData(self, measurement) -> pd.DataFrame:
+        log.debug('InfluxDBManager.getLatestData :: getLatestData called')
+        
         client = influxdb_client.InfluxDBClient(url = config.get('APP', 'INFLUX_URL'),
                                      token=config.get('APP', 'INFLUX_TOKEN'),
                                      org=config.get('APP', 'INFLUX_ORG'))
@@ -43,8 +45,10 @@ class InfluxDBManager:
             client.close() 
 
     def query(self):
+        log.debug('InfluxDBManager.query :: query called')
         while True:
             measurement = config.get('APP', 'MEASUREMENT_NAME')
+            log.debug('measurement name [{}]'.format(measurement))
             latestDataDF = self.getLatestData(measurement)
 
             if not latestDataDF.empty:

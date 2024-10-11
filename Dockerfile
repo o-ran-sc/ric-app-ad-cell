@@ -52,6 +52,8 @@ COPY src/ /tmp/src
 COPY init/ /tmp/init
 RUN pip install /tmp
 
+RUN pip install flask-restful
+
 # Env - TODO- Configmap
 ENV PYTHONUNBUFFERED 1
 ENV CONFIG_FILE=/tmp/init/config-file.json

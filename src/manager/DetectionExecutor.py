@@ -3,9 +3,9 @@ import pandas as pd
 
 from ..utils.constants import Constants
 from ..utils.FileLoader import FileLoader
-from ..utils.Util import Util
+from ..utils import Util
 
-from Scaler import Scaler
+from .Scaler import Scaler
 
 
 log = Util.setup_logger()

@@ -1,9 +1,9 @@
-from CustomFileRepository import CustomFileRepository
+from .CustomFileRepository import CustomFileRepository
 from ..utils.constants import Constants
 
 import pandas as pd
 
-from ..utils.Util import Util
+from ..utils import Util
 
 log = Util.setup_logger()
 

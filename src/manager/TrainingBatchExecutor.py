@@ -1,9 +1,9 @@
 import numpy as np
 import pandas as pd
 
-from CustomFileRepository import CustomFileRepository
+from .CustomFileRepository import CustomFileRepository
 
-from ..utils.Util import Util
+from ..utils import Util
 from ..utils.constants import Constants
 
 log = Util.setup_logger()
