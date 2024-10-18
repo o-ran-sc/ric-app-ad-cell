@@ -13,7 +13,7 @@ from ..utils.constants import Constants
 config = configparser.ConfigParser()
 config.read('/tmp/src/configuration/config.ini')
 
-log = Util.setup_logger()
+log = Util.get_logger()
 
 class InfluxDBManager:
 

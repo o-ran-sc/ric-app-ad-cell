@@ -6,7 +6,7 @@ from .CustomFileRepository import CustomFileRepository
 from ..utils import Util
 from ..utils.constants import Constants
 
-log = Util.setup_logger()
+log = Util.get_logger()
 
 class TrainingBatchExecutor:
 

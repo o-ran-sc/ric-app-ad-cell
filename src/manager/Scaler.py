@@ -5,7 +5,7 @@ import pandas as pd
 
 from ..utils import Util
 
-log = Util.setup_logger()
+log = Util.get_logger()
 
 class Scaler:
 

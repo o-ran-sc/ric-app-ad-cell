@@ -8,7 +8,7 @@ from ..utils import Util
 from .Scaler import Scaler
 
 
-log = Util.setup_logger()
+log = Util.get_logger()
 
 
 class DetectionExecutor:
