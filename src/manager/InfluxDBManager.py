@@ -27,11 +27,9 @@ class InfluxDBManager:
         INFLUXDB_BUCKET = config.get('APP', 'INFLUX_BUCKET')
         flux_query = f'''
         from(bucket: "{INFLUXDB_BUCKET}")
-            |> range(start: -5s)  // Adjust the range as needed
+            |> range(start: -48h)  // Adjust the range as needed
             |> filter(fn: (r) => r["_measurement"] == "{measurement}")
             |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
-            |> sort(columns: ["_time"], desc: true)
-            |> limit(n:1)
         '''
 
         try:
@@ -65,7 +63,7 @@ class InfluxDBManager:
                     log.info(f"No suffiecient data to detect anamoly for cell  '{latestDataDF.loc[0, 'Short name']}'")       
             else:
                 log.info(f"No data available in measurement '{measurement}'.")
-            time.sleep(5)
+            time.sleep(int(config.get('APP', 'KPI_FETCH_INTERVAL')))
 
 
     def write(self):
@@ -75,17 +73,17 @@ class InfluxDBManager:
 
         write_api = client.write_api(write_options=SYNCHRONOUS)
 
-        point = influxdb_client.Point("g-nodeb").tag("Short name", "Cell-Name-01").field("DRB.UEThpDl", 100.0)\
-            .field("DRB.UEThpUl", 100)\
-            .field("ThpVolDl", 10)\
-            .field("ThpVolUl", 10)\
+        point = influxdb_client.Point("g-nodeb").tag("Short name", "Cell-Name-01").field("DL Effective Throughput [Mbps]", 1024.0)\
+            .field("UL Effective Throughput [Mbps]", 2048)\
+            .field("DL Volume (GB)", 100000)\
+            .field("UL Volume (GB)", 40000)\
             .field("RRC.ConnMean", 0.000001)\
-            .field("CARR.WBCQIMean.BinX.BinY.BinZ", 10.0)\
+            .field("Avg. CQI", 10.0)\
             .field("Avg. DL PRB Utilization", 1.0)\
             .field("Avg. UL PRB Utilization", 1.0)\
             .field("DRB.PacketLossRateUl", 0.0)\
             .field("RRC Connection Success Rate (%)", 100.0)\
             .field("RRC Drop Rate (Session Drop Rate, %)", 0.0)\
             .field("HO Success Rate (%)", 100.0)\
-            .field("RRE Success Rate (%)", 0.0)
+            .field("RRE Success Rate (%)", 100.0)
         write_api.write(bucket=config.get('APP', 'INFLUX_BUCKET'), org=config.get('APP', 'INFLUX_ORG'), record=point)
