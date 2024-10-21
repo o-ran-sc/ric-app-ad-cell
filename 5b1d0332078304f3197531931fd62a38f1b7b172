@@ -1,0 +1,9 @@
+Verified+1: ORAN Required GHA <releng+oran.required.gha@linuxfoundation.org>
+Code-Review+2: Sunil N <sunil.n@samsung.com>
+Verified+1: Sunil N <sunil.n@samsung.com>
+Code-Review+2: Saravanan B <s.balasubram@samsung.com>
+Submitted-by: Sunil N <sunil.n@samsung.com>
+Submitted-at: Mon, 21 Oct 2024 14:22:39 +0000
+Reviewed-on: https://gerrit.o-ran-sc.org/r/c/ric-app/ad-cell/+/13673
+Project: ric-app/ad-cell
+Branch: refs/heads/master
